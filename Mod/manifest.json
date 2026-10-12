@@ -1,0 +1,28 @@
+{
+  "Name": "Folktails+ Addons",
+  "Version": "0.1.0",
+  "Id": "tharbad08.FolktailsPlusAddons",
+  "MinimumGameVersion": "1.1.1",
+  "Description": "Optional Folktails+ Charging Boost, Tiny Tubeway and Scientific Projects.",
+  "RequiredMods": [
+    {
+      "Id": "FolktailsPlus",
+      "MinimumVersion": "11.0.0"
+    },
+    {
+      "Id": "eMka.ModSettings"
+    }
+  ],
+  "OptionalMods": [
+    {
+      "Id": "BobingaboutTinyTubewayStation",
+      "MinimumVersion": "1.1.1.0"
+    },
+    {
+      "Id": "ScientificProjects"
+    },
+    {
+      "Id": "AlternativeRecipesSPs"
+    }
+  ]
+}

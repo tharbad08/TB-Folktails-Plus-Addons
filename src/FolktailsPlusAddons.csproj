@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+<PropertyGroup>
+<TargetFramework>netstandard2.1</TargetFramework>
+<LangVersion>latest</LangVersion>
+<Nullable>enable</Nullable>
+<ImplicitUsings>enable</ImplicitUsings>
+<AssemblyName>Timberborn.Tharbad08.FolktailsPlusAddons</AssemblyName>
+<GameManagedDir Condition="'$(GameManagedDir)'==''">$(TIMBERBORN_MANAGED_DIR)</GameManagedDir>
+<ModSettingsDir Condition="'$(ModSettingsDir)'==''">$(MOD_SETTINGS_DIR)</ModSettingsDir>
+</PropertyGroup>
+<ItemGroup>
+<GameReferences Include="$(GameManagedDir)/*.dll"/>
+<SettingsReferences Include="$(ModSettingsDir)/*.dll"/>
+<Reference Include="@(GameReferences)"><HintPath>%(GameReferences.FullPath)</HintPath><Private>False</Private></Reference>
+<Reference Include="@(SettingsReferences)"><HintPath>%(SettingsReferences.FullPath)</HintPath><Private>False</Private></Reference>
+</ItemGroup>
+<Target Name="ValidateDependencies" BeforeTargets="ResolveReferences">
+<Error Condition="!Exists('$(GameManagedDir)')" Text="Set TIMBERBORN_MANAGED_DIR"/>
+<Error Condition="!Exists('$(ModSettingsDir)')" Text="Set MOD_SETTINGS_DIR"/>
+</Target>
+</Project>
