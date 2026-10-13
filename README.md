@@ -8,7 +8,7 @@ A compatibility-focused collection of Folktails+ enhancements for Timberborn **1
 
 - **Mod ID:** `tharbad08.FolktailsPlusAddons`
 - **Author:** `tharbad08`
-- **Version:** 1.1.4
+- **Version:** 1.1.5
 - **Source:** https://github.com/tharbad08/TB-Folktails-Plus-Addons
 - **Game:** Timberborn 1.1.1 or newer in the 1.1 series
 
@@ -36,7 +36,7 @@ These changes apply to newly constructed buildings; they do not refund or retroa
 
 ## Installation
 
-1. Install and enable **Folktails+** (v11+) and its own prerequisites, **eMka Mod Settings** (1.1.1+) and **TimberUi** (11.0.1+).
+1. Install and enable **Folktails+** (v11+) and its own prerequisites, **eMka Mod Settings** (1.1.1+), **TimberUi** (11.0.1+) and **Harmony** (2.4.1+).
 2. Download the compiled `FolktailsPlusAddons_1.1.4` artifact from [GitHub Actions](https://github.com/tharbad08/TB-Folktails-Plus-Addons/actions/workflows/build.yml), or the direct ZIP provided in the associated chat.
 3. Extract the **single** `FolktailsPlusAddons` folder into `Documents/Timberborn/Mods/` (Linux: use the equivalent Timberborn Mods directory). Confirm it contains `version-1.1/manifest.json`, `version-1.1/Scripts/FolktailsPlusAddons.dll`, `Payload/`, `README.md`, and `ModDesc.txt`.
 4. **Remove legacy folders** from the previous separate addons (ChargingBoost, TinyTubeway_FolktailsPlus, Unlock Scientific, FT Mixer real costs). Do not remove the *underlying required* companion mods.
@@ -54,7 +54,7 @@ Each feature has its own payload in `Payload/<feature>/`, stored as `.template` 
 
 ### Dependencies
 
-**Always required:** `FolktailsPlus`, `eMka.ModSettings`, `TimberUi`. These are listed under `RequiredMods` in the manifest.
+**Always required:** `FolktailsPlus`, `eMka.ModSettings`, `TimberUi`, `Harmony`. These are listed under `RequiredMods` in the manifest.
 
 **Optional, automatically detected:** `BobingaboutTinyTubewayStation`, `ScientificProjects`, `AlternativeRecipesSPs`. These are under `OptionalMods`; none is required just to use Charging Boost or FT Mixer.
 
@@ -86,10 +86,17 @@ Push to `main` or run the [Build workflow](https://github.com/tharbad08/TB-Folkt
 
 ## Changelog
 
-**1.1.4** — Merged FT Mixer real costs; added an independent fourth toggle; kept its four material/science cost tables; upgraded documentation and mod description.
+**1.1.5** — Fixed late feature activation with an early ModRepository hook; added per-feature Player.log status reporting.\n\n**1.1.4** — Merged FT Mixer real costs; added an independent fourth toggle; kept its four material/science cost tables; upgraded documentation and mod description.
 
 **1.1.3** — Single-mod DLL with three optional features, dependency checks, and Mod Settings integration.
 
 ## Steam Workshop cover
 
 The mod has **no in-game icon**. The artwork is solely for the Steam Workshop listing. Use [`WorkshopCover.png`](WorkshopCover.png) (1254 × 1254) as the full-resolution cover; [`WorkshopPreview.jpg`](WorkshopPreview.jpg) (512 × 512) is a smaller thumbnail. Both images are also included in the installable ZIP. The artwork does not change gameplay.
+
+## 1.1.5: loading-order fix and save safety
+
+**Fixed:** Previously, automatic feature detection waited for the Mod Settings owner to be constructed, possibly after the game had already loaded blueprints. The runtime now hooks `ModRepository.Load` and reconciles the payloads as soon as that repository finishes loading, ahead of the blueprint asset providers. It writes a per-feature status line to `Player.log` so missing dependencies and disabled checkboxes are distinguishable. Requires Harmony 2.4.1.
+
+**Important known issue:** Some existing saves report `TubewayStation.Tiny.IronTeeth` missing even when Tiny Tubeway Station 1.1.2 is installed, and previous saves can contain obsolete `ChargingBoost` need data. Those errors predate this fix and are not conclusively repaired just by changing load order. **Do not overwrite your last known-good save until its building templates load without errors.** If still missing, supply the installed Tiny Tubeway Station mod folder and an affected save for targeted recovery.
+

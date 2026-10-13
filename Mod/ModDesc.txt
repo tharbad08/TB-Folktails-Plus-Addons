@@ -22,3 +22,6 @@ Install the single FolktailsPlusAddons folder under your local Timberborn Mods d
 [h1]Source and support[/h1]
 [url=https://github.com/tharbad08/TB-Folktails-Plus-Addons]GitHub source, full README and releases[/url]
 Created by [b]tharbad08[/b].
+
+[h1]1.1.5 reliability update[/h1]
+Fixes optional-feature activation timing at startup and logs feature statuses to Player.log. Requires Harmony. Make a backup of existing saves before updating; missing third-party building templates require separate investigation.

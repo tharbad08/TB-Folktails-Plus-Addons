@@ -1,9 +1,9 @@
 {
   "Name": "Folktails+ Addons",
-  "Version": "1.1.4",
+  "Version": "1.1.5",
   "Id": "tharbad08.FolktailsPlusAddons",
   "MinimumGameVersion": "1.1.1",
-  "Description": "Four independently configurable Folktails+ enhancements: charging boost, tiny tubeway, scientific project unlocks and realistic Iron Teeth building costs. Detects optional dependencies.",
+  "Description": "Four independent Folktails+ enhancements with early dependency detection and Mod Settings switches; fixes activation timing in v1.1.4.",
   "RequiredMods": [
     {
       "Id": "FolktailsPlus",
@@ -16,6 +16,10 @@
     {
       "Id": "TimberUi",
       "MinimumVersion": "11.0.1"
+    },
+    {
+      "Id": "Harmony",
+      "MinimumVersion": "2.4.1"
     }
   ],
   "OptionalMods": [

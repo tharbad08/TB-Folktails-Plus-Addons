@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using Bindito.Core;
+using HarmonyLib;
 using ModSettings.CommonUI;
 using ModSettings.Core;
 using ModSettings.CoreUI;
@@ -122,6 +123,10 @@ internal static class Features
             catch (Exception e) { Warn("Cannot inspect enabled mods: " + e.Message); }
             _activeMods = found;
             Synchronize();
+            Info("Early dependency check: " + string.Join("; ",
+                All.Select(f => f.Key + "=" + (Enabled(f) && DependenciesFound(f)
+                    ? "active" : Enabled(f) ? "missing dependency" : "disabled"))));
+
         }
     }
 
@@ -176,12 +181,55 @@ internal static class Features
             }
         }
     }
-    private static void Warn(string message) => System.Diagnostics.Trace.TraceWarning("[Folktails+ Addons] " + message);
+    internal static void Warn(string message) => WriteLog("Warning: " + message);
+    internal static void Info(string message) => WriteLog(message);
+    private static void WriteLog(string message)
+    {
+        var line = "[Folktails+ Addons] " + message;
+        try
+        {
+            var type = Type.GetType("UnityEngine.Debug, UnityEngine.CoreModule");
+            var method = type?.GetMethod("Log", BindingFlags.Public | BindingFlags.Static,
+                null, new[] { typeof(object) }, null);
+            if (method != null)
+            {
+                method.Invoke(null, new object[] { line });
+                return;
+            }
+        }
+        catch { }
+        System.Diagnostics.Trace.WriteLine(line);
+    }
 }
 
 public sealed class ModStarter : IModStarter
 {
-    public void StartMod(IModEnvironment environment) => Features.Startup(environment.ModPath);
+    // Must run BEFORE BlueprintAsset.Load, unlike a lazily-constructed settings
+    // owner that might not be instantiated until after blueprints have loaded.
+    public void StartMod(IModEnvironment environment)
+    {
+        Features.Startup(environment.ModPath);
+        try
+        {
+            var load = AccessTools.Method(typeof(ModRepository), "Load", Type.EmptyTypes);
+            if (load == null)
+            {
+                Features.Warn("ModRepository.Load not found; add-on payloads cannot be initialized.");
+                return;
+            }
+            new Harmony("tharbad08.FolktailsPlusAddons.Bootstrap").Patch(
+                load, postfix: new HarmonyMethod(typeof(ModStarter), nameof(AfterModRepositoryLoad)));
+            Features.Info("ModRepository early activation hook installed");
+        }
+        catch (Exception e)
+        {
+            Features.Warn("Failed to install early activation hook: " + e);
+        }
+    }
+    public static void AfterModRepositoryLoad(ModRepository __instance)
+    {
+        if (__instance != null) Features.Capture(__instance);
+    }
 }
 
 [Context("MainMenu")]

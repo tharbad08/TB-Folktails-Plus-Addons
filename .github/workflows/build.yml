@@ -60,8 +60,8 @@ jobs:
           assert len(jpg)>30000
           m=json.loads((root/'version-1.1/manifest.json').read_text())
           assert m['Id']=='tharbad08.FolktailsPlusAddons'
-          assert m['Version']=='1.1.4'
-          assert len(m['RequiredMods'])==3
+          assert m['Version']=='1.1.5'
+          assert len(m['RequiredMods'])==4
           assert len(m['OptionalMods'])==3
           templates=list((root/'Payload').rglob('*.blueprint.json.template'))
           assert len(templates)==14, len(templates)
@@ -86,6 +86,6 @@ jobs:
           PY
       - uses: actions/upload-artifact@v4
         with:
-          name: FolktailsPlusAddons_1.1.4
+          name: FolktailsPlusAddons_1.1.5
           path: ${{ runner.temp }}/package/
           if-no-files-found: error
