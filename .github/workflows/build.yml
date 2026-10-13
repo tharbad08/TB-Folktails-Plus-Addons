@@ -26,7 +26,8 @@ jobs:
           set -euo pipefail
           git clone --depth=1 --filter=blob:none --sparse --branch TB-Optimizer https://github.com/tharbad08/TimberbornMods.git "$RUNNER_TEMP/reference"
           git -C "$RUNNER_TEMP/reference" sparse-checkout set BenchmarkAndOptimizerV11Port/Stubs
-          cp -a "$RUNNER_TEMP/reference/BenchmarkAndOptimizerV11Port/Stubs" Runtime/Stubs
+          mkdir -p Runtime/Stubs
+          cp -a "$RUNNER_TEMP/reference/BenchmarkAndOptimizerV11Port/Stubs/." Runtime/Stubs/
           git restore -- Runtime/Stubs/Timberborn.Modding/Stub.cs Runtime/Stubs/Timberborn.SettingsSystem/Stub.cs Runtime/Stubs/ModSettings.Core/Stub.cs
       - name: Compile release DLL
         run: dotnet build Runtime/FolktailsPlusAddons.csproj --configuration Release
