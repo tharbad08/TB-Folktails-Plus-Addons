@@ -1,5 +1,7 @@
 # Folktails+ Addons
 
+![Folktails+ Addons Workshop cover](WorkshopPreview.jpg)
+
 **One mod. Four optional features. One settings panel.**
 
 A compatibility-focused collection of Folktails+ enhancements for Timberborn **1.1**. It merges Charging Boost, Tiny Tubeway, Scientific Project unlocks, and **FT Mixer – Real Costs** without installing four separate mods.
@@ -87,3 +89,7 @@ Push to `main` or run the [Build workflow](https://github.com/tharbad08/TB-Folkt
 **1.1.4** — Merged FT Mixer real costs; added an independent fourth toggle; kept its four material/science cost tables; upgraded documentation and mod description.
 
 **1.1.3** — Single-mod DLL with three optional features, dependency checks, and Mod Settings integration.
+
+## Steam Workshop cover
+
+The mod has **no in-game icon**. The artwork is solely for the Steam Workshop listing. Use [`WorkshopCover.png`](WorkshopCover.png) (1254 × 1254) as the full-resolution cover; [`WorkshopPreview.jpg`](WorkshopPreview.jpg) (512 × 512) is a smaller thumbnail. Both images are also included in the installable ZIP. The artwork does not change gameplay.

@@ -37,6 +37,8 @@ jobs:
           cp -a Mod/Payload "$ROOT/Payload"
           cp Mod/ModDesc.txt "$ROOT/ModDesc.txt"
           cp README.md "$ROOT/README.md"
+          cp WorkshopCover.png "$ROOT/WorkshopCover.png"
+          cp WorkshopPreview.jpg "$ROOT/WorkshopPreview.jpg"
           cp Runtime/bin/Release/netstandard2.1/FolktailsPlusAddons.dll "$ROOT/version-1.1/Scripts/"
           test -s "$ROOT/version-1.1/Scripts/FolktailsPlusAddons.dll"
           python3 - <<'PY'
@@ -47,6 +49,13 @@ jobs:
           assert len(list(root.rglob('*.dll')))==1, 'Must be one DLL'
           assert (root/'README.md').stat().st_size>1000
           assert (root/'ModDesc.txt').stat().st_size>200
+          import struct
+          png=(root/'WorkshopCover.png').read_bytes()
+          jpg=(root/'WorkshopPreview.jpg').read_bytes()
+          assert png[:8]==b'\\x89PNG\\r\\n\\x1a\\n'
+          assert struct.unpack('>II',png[16:24])==(1254,1254)
+          assert jpg[:3]==b'\\xff\\xd8\\xff' and jpg[-2:]==b'\\xff\\xd9'
+          assert len(jpg)>30000
           m=json.loads((root/'version-1.1/manifest.json').read_text())
           assert m['Id']=='tharbad08.FolktailsPlusAddons'
           assert m['Version']=='1.1.4'
