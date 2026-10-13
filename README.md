@@ -1,28 +1,25 @@
-# TB Folktails+ Addons
+# Folktails+ Addons — single mod
 
-Combines the three user-supplied Folktails+ patches without replacing Folktails+'s manifests, collections, or building definitions.
+The release has exactly **one** mod directory, **one** manifest and **one** mod ID (`tharbad08.FolktailsPlusAddons`). It combines three features:
 
-## Ready-to-extract, dependency-safe version
+- Charging Boost for bots using the Iron Teeth charging station
+- Tiny Tubeway Station available to Folktails
+- Five Scientific Projects available to Folktails
 
-The `Installable/` directory has three **individually gated Timberborn addon mods**, bundled in a **single ZIP**. Each uses Timberborn's `RequiredMods` checks, so the game will not activate an addon whose dependency is disabled or missing. You can enable or disable them separately in Timberborn's built-in mod manager. The three components are Charging Boost (Folktails+), Tiny Tubeway (Folktails+ and BobingaboutTinyTubewayStation), and Scientific Projects (Folktails+, ScientificProjects, AlternativeRecipesSPs).
+## Install
 
-Extract the contents of the release ZIP **directly to** `Documents/Timberborn/Mods/` and restart the game. Do not extract all addons into one extra parent directory.
+Extract `FolktailsPlusAddons` from the all-in-one release ZIP directly to `Documents/Timberborn/Mods/`. Remove the previously installed `FolktailsPlusAddons-ChargingBoost`, `FolktailsPlusAddons-TinyTubeway`, and `FolktailsPlusAddons-ScientificProjects` folders to avoid duplicate blueprint changes. Enable the new mod and restart Timberborn.
 
-The original Charging Boost input had a full Folktails+ replacement manifest and building collection; those are intentionally excluded. The Charging Boost patch now appends its need to Folktails+'s existing need collection.
+## Dependencies and important limitation
 
-## Settings and detection
+This **single-mod, data-only** build requires all four dependencies: Folktails+ >= 11.0.0, Bobingabout Tiny Tubeway Station >= 1.1.1.0, Scientific Projects and Alternative Recipes Scientific Projects. If any dependency is missing or disabled, Timberborn disables the whole bundle. This is intentional: a JSON-only mod cannot safely conditionally include the Tiny Tubeway collection reference when its target mod is absent.
 
-The *working, data-only* release relies on the game's built-in mod-manager checkboxes and dependency checks, **not** a custom in-game settings panel. The `src/` code under this repository was a prototype and is not part of that release. It has not been successfully built or game-tested. The requested TB Optimizer-style custom settings UI requires a separately compiled and runtime-validated DLL.
+**The previous source-only settings prototype is not shipped as a DLL** and this release does *not* implement independent per-feature toggles or automatic optional-dependency deactivation. Those features require separately compiled and validated runtime integration. Do not mistake this for a completed TB Optimizer-style settings build.
 
-The original source archive is preserved in the conversation; no assemblies from optional mods are redistributed here.
+## Blueprint safety
 
-## Validation
+No original Folktails+ manifest or building list is replaced. Charging Boost uses a distinct need collection and adds its collection ID to Folktails with an append operation. The Tiny Tubeway reference and five science patches are applied only after their required mods have been loaded.
 
-- All 12 files in the data-only package were checked as valid JSON.
-- Each of the three addon manifests contains explicit dependency requirements.
-- No direct replacement of Folktails+'s building collections or full faction manifest.
-- Packaging validated locally. The game itself was not run in this environment.
+## Verification
 
-## Original projects
-- [Folktails+](https://github.com/datvm/TimberbornMods/tree/master/FolktailsPlus)
-- [Scientific Projects](https://github.com/datvm/TimberbornMods/tree/master/ScientificProjects)
+ZIP: 11 JSON files; one mod folder; one manifest. All JSON parsed; ZIP integrity checked. This is packaging-level verification only; in-game validation has not been possible.
