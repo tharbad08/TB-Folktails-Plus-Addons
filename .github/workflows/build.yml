@@ -27,6 +27,7 @@ jobs:
           git clone --depth=1 --filter=blob:none --sparse --branch TB-Optimizer https://github.com/tharbad08/TimberbornMods.git "$RUNNER_TEMP/reference"
           git -C "$RUNNER_TEMP/reference" sparse-checkout set BenchmarkAndOptimizerV11Port/Stubs
           cp -a "$RUNNER_TEMP/reference/BenchmarkAndOptimizerV11Port/Stubs" Runtime/Stubs
+          git restore -- Runtime/Stubs/Timberborn.Modding/Stub.cs Runtime/Stubs/Timberborn.SettingsSystem/Stub.cs Runtime/Stubs/ModSettings.Core/Stub.cs
       - name: Compile release DLL
         run: dotnet build Runtime/FolktailsPlusAddons.csproj --configuration Release
       - name: Package one Timberborn mod folder and verify
@@ -36,7 +37,7 @@ jobs:
           ROOT="$RUNNER_TEMP/package/FolktailsPlusAddons"
           mkdir -p "$ROOT/version-1.1/Scripts"
           cp Mod/manifest.json "$ROOT/version-1.1/manifest.json"
-          cp -a Mod/Payload "$ROOT/Payload"
+          cp -a Mod/Static/version-1.1/. "$ROOT/version-1.1/"
           cp Mod/ModDesc.txt "$ROOT/ModDesc.txt"
           cp README.md "$ROOT/README.md"
           cp WorkshopCover.png "$ROOT/WorkshopCover.png"
@@ -60,14 +61,14 @@ jobs:
           assert len(jpg)>30000
           m=json.loads((root/'version-1.1/manifest.json').read_text())
           assert m['Id']=='tharbad08.FolktailsPlusAddons'
-          assert m['Version']=='1.1.5'
-          assert len(m['RequiredMods'])==4
+          assert m['Version']=='1.2.0'
+          assert len(m['RequiredMods'])==3
           assert len(m['OptionalMods'])==3
           templates=list((root/'Payload').rglob('*.blueprint.json.template'))
-          assert len(templates)==14, len(templates)
-          counts={feature:len(list((root/'Payload'/feature).rglob('*.template'))) for feature in ('ChargingBoost','TinyTubeway','ScientificProjects','MixerCosts')}
+          assert len(templates)==0, len(templates)
+          counts={feature:len(list(pathlib.Path('Mod/Payload',feature).rglob('*.template'))) for feature in ('ChargingBoost','TinyTubeway','ScientificProjects','MixerCosts')}
           assert counts=={'ChargingBoost':4,'TinyTubeway':1,'ScientificProjects':5,'MixerCosts':4},counts
-          for template in templates: json.loads(template.read_text())
+          for template in pathlib.Path('Mod/Payload').rglob('*.template'): json.loads(template.read_text())
           expected={
              'DeepWaterPump':(100,[('Log',24)]),
              'DeepBadwaterPump':(500,[('Log',40),('Gear',20),('MetalPart',20)]),
@@ -75,17 +76,19 @@ jobs:
              'IndustrialLumberMill':(200,[('Log',40)]),
           }
           for name,(science,materials) in expected.items():
-              p=next(p for p in (root/'Payload'/'MixerCosts').rglob('*.template') if p.name==name+'.IronTeeth.blueprint.json.template')
+              p=next(p for p in pathlib.Path('Mod/Payload/MixerCosts').rglob('*.template') if p.name==name+'.IronTeeth.blueprint.json.template')
               data=json.loads(p.read_text())['BuildingSpec']
               assert set(data)=={'BuildingCost','ScienceCost'},name
               assert data['ScienceCost']==science
               assert [(x['Id'],x['Amount']) for x in data['BuildingCost']]==materials
           runtime=pathlib.Path('Runtime/AddonRuntime.cs').read_text()
           assert 'new Feature("MixerCosts"' in runtime
-          print('PASS: one mod folder, 1 manifest, 1 DLL, 14 blueprints, 4 features and exact Mixer costs')
+          assert 'IBlueprintModifierProvider' in runtime and 'File.WriteAll' not in runtime and 'Harmony' not in runtime
+          assert len(list(root.rglob('*.blueprint.json')))==3
+          print('PASS: native blueprint provider, one mod folder, DLL, 3 static compatibility specs, 4 optional features')
           PY
       - uses: actions/upload-artifact@v4
         with:
-          name: FolktailsPlusAddons_1.1.5
+          name: FolktailsPlusAddons_1.2.0
           path: ${{ runner.temp }}/package/
           if-no-files-found: error

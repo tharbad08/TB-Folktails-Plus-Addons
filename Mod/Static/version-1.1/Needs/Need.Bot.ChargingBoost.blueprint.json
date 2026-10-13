@@ -1,0 +1,20 @@
+{
+  "NeedSpec": {
+    "Id": "ChargingBoost",
+    "BackwardCompatibleIds": [],
+    "Order": 40,
+    "NeedGroupId": "Boosts",
+    "CharacterType": "Bot",
+    "StartingValue": 0,
+    "MinimumValue": 0,
+    "MaximumValue": 1,
+    "DailyDelta": -0.58,
+    "ImportanceMultiplier": 1,
+    "Effectiveness": 1,
+    "Wastable": false,
+    "HoursWarningThreshold": 0,
+    "DisplayNameLocKey": "Need.Power.DisplayName",
+    "FavorableWellbeing": 1,
+    "UnfavorableWellbeing": 0
+  }
+}

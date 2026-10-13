@@ -1,9 +1,9 @@
 {
   "Name": "Folktails+ Addons",
-  "Version": "1.1.5",
+  "Version": "1.2.0",
   "Id": "tharbad08.FolktailsPlusAddons",
   "MinimumGameVersion": "1.1.1",
-  "Description": "Four independent Folktails+ enhancements with early dependency detection and Mod Settings switches; fixes activation timing in v1.1.4.",
+  "Description": "Four optional Folktails+ enhancements using Timberborn blueprint modifiers and native Mod Settings: bot charging, tiny tubeway, scientific unlocks and mixed-faction building costs.",
   "RequiredMods": [
     {
       "Id": "FolktailsPlus",
@@ -16,10 +16,6 @@
     {
       "Id": "TimberUi",
       "MinimumVersion": "11.0.1"
-    },
-    {
-      "Id": "Harmony",
-      "MinimumVersion": "2.4.1"
     }
   ],
   "OptionalMods": [

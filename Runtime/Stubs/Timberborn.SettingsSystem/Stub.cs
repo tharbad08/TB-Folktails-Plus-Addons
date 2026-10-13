@@ -1,0 +1,1 @@
+namespace Timberborn.SettingsSystem { public interface ISettings { bool GetBool(string key, bool defaultValue=false); } }

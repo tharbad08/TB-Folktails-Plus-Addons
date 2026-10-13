@@ -1,0 +1,8 @@
+{
+  "NeedCollectionSpec": {
+    "CollectionId": "FolktailsPlusAddons.ChargingBoost",
+    "Needs": [
+      "ChargingBoost"
+    ]
+  }
+}
