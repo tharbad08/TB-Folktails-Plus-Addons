@@ -6,6 +6,8 @@ on:
       - 'Runtime/**'
       - 'Mod/**'
       - 'README.md'
+      - 'WorkshopCover.png'
+      - 'WorkshopPreview.jpg'
       - '.github/workflows/build.yml'
   workflow_dispatch:
 permissions:
@@ -52,9 +54,9 @@ jobs:
           import struct
           png=(root/'WorkshopCover.png').read_bytes()
           jpg=(root/'WorkshopPreview.jpg').read_bytes()
-          assert png[:8]==b'\\x89PNG\\r\\n\\x1a\\n'
+          assert png[:8]==b'\x89PNG\r\n\x1a\n'
           assert struct.unpack('>II',png[16:24])==(1254,1254)
-          assert jpg[:3]==b'\\xff\\xd8\\xff' and jpg[-2:]==b'\\xff\\xd9'
+          assert jpg[:3]==b'\xff\xd8\xff' and jpg[-2:]==b'\xff\xd9'
           assert len(jpg)>30000
           m=json.loads((root/'version-1.1/manifest.json').read_text())
           assert m['Id']=='tharbad08.FolktailsPlusAddons'
