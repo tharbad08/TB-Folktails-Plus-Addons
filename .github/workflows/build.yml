@@ -29,6 +29,19 @@ jobs:
           mkdir -p Runtime/Stubs
           cp -a "$RUNNER_TEMP/reference/BenchmarkAndOptimizerV11Port/Stubs/." Runtime/Stubs/
           git restore -- Runtime/Stubs/Timberborn.Modding/Stub.cs Runtime/Stubs/Timberborn.SettingsSystem/Stub.cs Runtime/Stubs/ModSettings.Core/Stub.cs
+      - name: Check Timberborn 1.1 blueprint API contract
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          stub=Path('Runtime/Stubs/Timberborn.BlueprintSystem/Stub.cs').read_text()
+          assert 'BlueprintFileBundle? GetBundle(string path)' in stub
+          assert 'object? GetBundle(string path)' not in stub
+          assert 'public sealed class BlueprintFileBundle' in stub
+          runtime=Path('Runtime/AddonRuntime.cs').read_text()
+          assert '_bundles.GetBundle(' in runtime
+          print('PASS: BlueprintFileBundleLoader.GetBundle returns BlueprintFileBundle, not object')
+          PY
       - name: Compile release DLL
         run: dotnet build Runtime/FolktailsPlusAddons.csproj --configuration Release
       - name: Package one Timberborn mod folder and verify
@@ -62,7 +75,7 @@ jobs:
           assert len(jpg)>30000
           m=json.loads((root/'version-1.1/manifest.json').read_text())
           assert m['Id']=='tharbad08.FolktailsPlusAddons'
-          assert m['Version']=='1.2.0'
+          assert m['Version']=='1.2.1'
           assert len(m['RequiredMods'])==3
           assert len(m['OptionalMods'])==3
           templates=list((root/'Payload').rglob('*.blueprint.json.template'))
@@ -90,6 +103,6 @@ jobs:
           PY
       - uses: actions/upload-artifact@v4
         with:
-          name: FolktailsPlusAddons_1.2.0
+          name: FolktailsPlusAddons_1.2.1
           path: ${{ runner.temp }}/package/
           if-no-files-found: error

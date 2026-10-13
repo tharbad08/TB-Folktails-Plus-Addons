@@ -1,4 +1,4 @@
-# Folktails+ Addons 1.2.0
+# Folktails+ Addons 1.2.1
 
 One mod, four independently configurable features, **native mod detection** and **no runtime writes to mod folders**.
 
@@ -41,8 +41,17 @@ The mod does not write or delete files and does not use Harmony. Compilation and
 
 `WorkshopCover.png` and `WorkshopPreview.jpg` are promotional assets (no in-game icon).
 
+## Diagnostics
+
+**Startup crash fixed in v1.2.1:** v1.2.0 was compiled against a stub that incorrectly described `BlueprintFileBundleLoader.GetBundle(string)` as returning `object`. Timberborn 1.1 returns `BlueprintFileBundle`. The CLR method signature includes its return type, so the old DLL threw `MissingMethodException` when Tiny Tubeway detection ran. v1.2.1 now uses the correct return type and verifies the API contract during the build. The source of this signature was checked against Timberborn's game-reflection API.
+
+**Separate outstanding error:** If `FactionSpecMaterialsValidator` reports missing `TWMoreMines`, this comes from the More Mines material collection and is not fixed by the addon. Backup the save and test with More Mines disabled or updated if startup still fails.
+
 ## Changelog
 
-**1.2.0** — Native engine blueprint modifiers and persisted settings, no runtime file access, retained saved charging need, tiny-station blueprint presence check.
+**1.2.1** — Corrected the return type for the built-in `BlueprintFileBundleLoader.GetBundle` call and added a CI regression guard against the incorrect stub signature.
+
+
+**1.2.1** — Native engine blueprint modifiers and persisted settings, no runtime file access, retained saved charging need, tiny-station blueprint presence check.
 
 **1.1.5** — Early activation hook (superseded).

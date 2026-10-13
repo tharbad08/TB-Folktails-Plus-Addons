@@ -25,3 +25,6 @@ Created by [b]tharbad08[/b].
 
 [h1]1.1.5 reliability update[/h1]
 Fixes optional-feature activation timing at startup and logs feature statuses to Player.log. Requires Harmony. Make a backup of existing saves before updating; missing third-party building templates require separate investigation.
+
+[h1]v1.2.1 compatibility fix[/h1]
+Corrects a Timberborn 1.1 API signature mismatch in v1.2.0 that caused a startup MissingMethodException while detecting Tiny Tubeway Station. In-game testing still needed; back up affected saves.
