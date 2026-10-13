@@ -1,25 +1,26 @@
-# Folktails+ Addons — single mod
+# Folktails+ Addons 1.1.3 — one mod with optional features
 
-The release has exactly **one** mod directory, **one** manifest and **one** mod ID (`tharbad08.FolktailsPlusAddons`). It combines three features:
+One install folder `FolktailsPlusAddons`, one manifest, one compiled C# DLL, and **three independent checkboxes** within the Mod Settings menu. The settings UI follows the [TB Optimizer](https://github.com/tharbad08/TimberbornMods/tree/TB-Optimizer/BenchmarkAndOptimizerV11Port) pattern (ModSettingsOwner, custom setting element factory, short labels and explanation text).
 
-- Charging Boost for bots using the Iron Teeth charging station
-- Tiny Tubeway Station available to Folktails
-- Five Scientific Projects available to Folktails
+## Features
+| Feature | Required enabled mods |
+| --- | --- |
+| Charging station boost | Folktails+ |
+| Tiny Tubeway Station | Folktails+; `BobingaboutTinyTubewayStation` |
+| Scientific projects | Folktails+; `ScientificProjects`; `AlternativeRecipesSPs` |
 
-## Install
+**Mod-wide requirements:** Folktails+ v11+, eMka Mod Settings, TimberUi. Others are *optional* and declared `OptionalMods` to load before this addon if present.
 
-Extract `FolktailsPlusAddons` from the all-in-one release ZIP directly to `Documents/Timberborn/Mods/`. Remove the previously installed `FolktailsPlusAddons-ChargingBoost`, `FolktailsPlusAddons-TinyTubeway`, and `FolktailsPlusAddons-ScientificProjects` folders to avoid duplicate blueprint changes. Enable the new mod and restart Timberborn.
+## How dependency detection works
+The runtime reads **enabled** mod IDs from Timberborn's `ModRepository` (not merely installed folders). When the main-menu settings owner initializes, it reconciles the selected features with the available dependencies, installing/removing this addon's `.blueprint.json` patches from its own `version-1.1/` folder. Feature payload templates remain in `Payload/` outside the blueprint search path. Missing prerequisites disable that feature (and its checkbox) without preventing other features from loading. Settings are saved to `folktails-addons-options.txt`; changes need a game restart.
 
-## Dependencies and important limitation
+**Limitations:** This uses writable local mod-directory materialization to activate blueprints; Steam Workshop installations may be read-only. It is a compile-targeted adaptation of TB Optimizer's settings, not verified against an actual game runtime. Direct-to-save launch and blueprint scanning before main-menu settings initialization are not verified. The GitHub Actions build compiles against the TB Optimizer reference stubs, which validates API syntax but is not a substitute for integration testing against the game binaries.
 
-This **single-mod, data-only** build requires all four dependencies: Folktails+ >= 11.0.0, Bobingabout Tiny Tubeway Station >= 1.1.1.0, Scientific Projects and Alternative Recipes Scientific Projects. If any dependency is missing or disabled, Timberborn disables the whole bundle. This is intentional: a JSON-only mod cannot safely conditionally include the Tiny Tubeway collection reference when its target mod is absent.
+## Release
+Go to [Build Folktails+ Addons](https://github.com/tharbad08/TB-Folktails-Plus-Addons/actions/workflows/build.yml) and download the latest successful artifact `FolktailsPlusAddons_1.1.3`. It contains a single mod folder (not three mods). Extract it under your Timberborn Mods directory and remove old addons.
 
-**The previous source-only settings prototype is not shipped as a DLL** and this release does *not* implement independent per-feature toggles or automatic optional-dependency deactivation. Those features require separately compiled and validated runtime integration. Do not mistake this for a completed TB Optimizer-style settings build.
-
-## Blueprint safety
-
-No original Folktails+ manifest or building list is replaced. Charging Boost uses a distinct need collection and adds its collection ID to Folktails with an append operation. The Tiny Tubeway reference and five science patches are applied only after their required mods have been loaded.
-
-## Verification
-
-ZIP: 11 JSON files; one mod folder; one manifest. All JSON parsed; ZIP integrity checked. This is packaging-level verification only; in-game validation has not been possible.
+## File ownership
+- `Runtime/AddonRuntime.cs`: dependency detection, options, menu UI and blueprint materialization
+- `Mod/manifest.json`: core and optional mod requirements
+- `Mod/Payload/<feature>/`: blueprint templates; no replacement Folktails+ manifest
+- `.github/workflows/build.yml`: compile C# and package one mod folder, validate contents

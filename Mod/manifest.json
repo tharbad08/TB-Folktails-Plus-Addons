@@ -1,0 +1,32 @@
+{
+  "Name": "Folktails+ Addons",
+  "Version": "1.1.3",
+  "Id": "tharbad08.FolktailsPlusAddons",
+  "MinimumGameVersion": "1.1.1",
+  "Description": "Charging Boost, Tiny Tubeway and Scientific Projects with optional dependency detection and per-feature settings.",
+  "RequiredMods": [
+    {
+      "Id": "FolktailsPlus",
+      "MinimumVersion": "11.0.0"
+    },
+    {
+      "Id": "eMka.ModSettings",
+      "MinimumVersion": "1.1.1.0"
+    },
+    {
+      "Id": "TimberUi",
+      "MinimumVersion": "11.0.1"
+    }
+  ],
+  "OptionalMods": [
+    {
+      "Id": "BobingaboutTinyTubewayStation"
+    },
+    {
+      "Id": "ScientificProjects"
+    },
+    {
+      "Id": "AlternativeRecipesSPs"
+    }
+  ]
+}

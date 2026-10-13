@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>FolktailsPlusAddons</AssemblyName>
+    <RootNamespace>FolktailsPlusAddons</RootNamespace>
+    <AssemblyVersion>1.1.3.0</AssemblyVersion>
+  </PropertyGroup>
+  <ItemGroup><Compile Remove="Stubs/**/*.cs" /></ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Stubs/Timberborn.Modding/Timberborn.Modding.Stub.csproj" Private="false" />
+    <ProjectReference Include="Stubs/Timberborn.ModManagerScene/Timberborn.ModManagerScene.Stub.csproj" Private="false" />
+    <ProjectReference Include="Stubs/Timberborn.SettingsSystem/Timberborn.SettingsSystem.Stub.csproj" Private="false" />
+    <ProjectReference Include="Stubs/Bindito.Core/Bindito.Core.Stub.csproj" Private="false" />
+    <ProjectReference Include="Stubs/UnityEngine.UIElementsModule/UnityEngine.UIElementsModule.Stub.csproj" Private="false" />
+    <ProjectReference Include="Stubs/Timberborn.CoreUI/Timberborn.CoreUI.Stub.csproj" Private="false" />
+    <ProjectReference Include="Stubs/ModSettings.Core/ModSettings.Core.Stub.csproj" Private="false" />
+    <ProjectReference Include="Stubs/ModSettings.CoreUI/ModSettings.CoreUI.Stub.csproj" Private="false" />
+    <ProjectReference Include="Stubs/ModSettings.CommonUI/ModSettings.CommonUI.Stub.csproj" Private="false" />
+    <ProjectReference Include="Stubs/TimberUi/TimberUi.Stub.csproj" Private="false" />
+  </ItemGroup>
+</Project>
