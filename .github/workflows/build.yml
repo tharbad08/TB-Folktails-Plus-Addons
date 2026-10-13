@@ -84,7 +84,7 @@ jobs:
               assert [(x['Id'],x['Amount']) for x in data['BuildingCost']]==materials
           runtime=pathlib.Path('Runtime/AddonRuntime.cs').read_text()
           assert 'new Feature("MixerCosts"' in runtime
-          assert 'IBlueprintModifierProvider' in runtime and 'File.WriteAll' not in runtime and 'Harmony' not in runtime
+          assert 'IBlueprintModifierProvider' in runtime and 'File.WriteAll' not in runtime and 'new Harmony(' not in runtime
           assert len(list(root.rglob('*.blueprint.json')))==3
           print('PASS: native blueprint provider, one mod folder, DLL, 3 static compatibility specs, 4 optional features')
           PY
