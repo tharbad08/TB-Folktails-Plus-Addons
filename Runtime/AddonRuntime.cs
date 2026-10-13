@@ -35,8 +35,7 @@ internal sealed class Feature
 
 internal static class Features
 {
-    private const string RootName = "FolktailsPlusAddons";
-    private static readonly string[] Core = { "FolktailsPlus" };
+        private static readonly string[] Core = { "FolktailsPlus" };
     internal static readonly Feature[] All = {
         new Feature("ChargingBoost", "Charging station boost",
             "Adds charging boost to Folktails+ bots.\nRequires Folktails+.",
@@ -56,7 +55,14 @@ internal static class Features
             "Blueprints/ScientificProjects/Factions/ItSmelterUpgrade.ScientificProjectSpec.blueprint.json",
             "Blueprints/ScientificProjects/Foods/PrecisionOilYield.blueprint.json",
             "Blueprints/ScientificProjects/Foods/RapidCanolaCrush.blueprint.json",
-            "Blueprints/ScientificProjects/Woods/SteelBoundPlanks.blueprint.json")
+            "Blueprints/ScientificProjects/Woods/SteelBoundPlanks.blueprint.json"),
+        new Feature("MixerCosts", "FT Mixer — realistic costs",
+            "Rebalances four Iron Teeth building costs for mixed colonies.\nRequires Folktails+ only.",
+            Core,
+            "Buildings/Water/DeepWaterPump/DeepWaterPump.IronTeeth.blueprint.json",
+            "Buildings/Water/DeepBadwaterPump/DeepBadwaterPump.IronTeeth.blueprint.json",
+            "Buildings/Water/DeepMechanicalFluidPump/DeepMechanicalFluidPump.IronTeeth.blueprint.json",
+            "Buildings/Wood/IndustrialLumberMill/IndustrialLumberMill.IronTeeth.blueprint.json")
     };
 
     private static readonly Dictionary<string, bool> Switches = new(StringComparer.Ordinal);

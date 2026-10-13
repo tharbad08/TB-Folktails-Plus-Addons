@@ -1,0 +1,11 @@
+{
+  "BuildingSpec": {
+    "BuildingCost": [
+      {
+        "Id": "Log",
+        "Amount": 24
+      }
+    ],
+    "ScienceCost": 100
+  }
+}

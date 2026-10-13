@@ -1,26 +1,89 @@
-# Folktails+ Addons 1.1.3 — one mod with optional features
+# Folktails+ Addons
 
-One install folder `FolktailsPlusAddons`, one manifest, one compiled C# DLL, and **three independent checkboxes** within the Mod Settings menu. The settings UI follows the [TB Optimizer](https://github.com/tharbad08/TimberbornMods/tree/TB-Optimizer/BenchmarkAndOptimizerV11Port) pattern (ModSettingsOwner, custom setting element factory, short labels and explanation text).
+**One mod. Four optional features. One settings panel.**
 
-## Features
-| Feature | Required enabled mods |
+A compatibility-focused collection of Folktails+ enhancements for Timberborn **1.1**. It merges Charging Boost, Tiny Tubeway, Scientific Project unlocks, and **FT Mixer – Real Costs** without installing four separate mods.
+
+- **Mod ID:** `tharbad08.FolktailsPlusAddons`
+- **Author:** `tharbad08`
+- **Version:** 1.1.4
+- **Source:** https://github.com/tharbad08/TB-Folktails-Plus-Addons
+- **Game:** Timberborn 1.1.1 or newer in the 1.1 series
+
+## Features at a glance
+
+| Setting (each enabled by default) | What it does | Required enabled mods |
+| --- | --- | --- |
+| **Charging station boost** | Adds the Charging Boost need/effect to bot charging, as in the original Folktails+ enhancement | Folktails+ |
+| **Tiny Tubeway Station** | Makes Bobingabout's Tiny Tubeway Station available to Folktails via the Folktails+ building collection | Folktails+, Tiny Tubeway Station |
+| **Scientific projects** | Enables five Iron Teeth scientific projects for Folktails | Folktails+, Scientific Projects, Alternative Recipes Scientific Projects |
+| **FT Mixer – realistic costs** | Applies the original four Iron Teeth building prices to mixed-faction Folktails colonies | Folktails+ |
+
+### FT Mixer – realistic costs
+
+This feature preserves the uploaded **FT Mixer real costs** material requirements and science costs. It changes **costs only**, leaving sound, selection, placement, and other building behaviors to Timberborn and the original mods.
+
+| Iron Teeth building | Materials | Science |
+| --- | --- | ---: |
+| Deep Water Pump | 24 Logs | 100 |
+| Deep Badwater Pump | 40 Logs, 20 Gears, 20 Metal Parts | 500 |
+| Deep Mechanical Fluid Pump | 100 Gears, 50 Treated Planks, 50 Metal Blocks | 5,000 |
+| Industrial Lumber Mill | 40 Logs | 200 |
+
+These changes apply to newly constructed buildings; they do not refund or retroactively bill already-built structures.
+
+## Installation
+
+1. Install and enable **Folktails+** (v11+) and its own prerequisites, **eMka Mod Settings** (1.1.1+) and **TimberUi** (11.0.1+).
+2. Download the compiled `FolktailsPlusAddons_1.1.4` artifact from [GitHub Actions](https://github.com/tharbad08/TB-Folktails-Plus-Addons/actions/workflows/build.yml), or the direct ZIP provided in the associated chat.
+3. Extract the **single** `FolktailsPlusAddons` folder into `Documents/Timberborn/Mods/` (Linux: use the equivalent Timberborn Mods directory). Confirm it contains `version-1.1/manifest.json`, `version-1.1/Scripts/FolktailsPlusAddons.dll`, `Payload/`, `README.md`, and `ModDesc.txt`.
+4. **Remove legacy folders** from the previous separate addons (ChargingBoost, TinyTubeway_FolktailsPlus, Unlock Scientific, FT Mixer real costs). Do not remove the *underlying required* companion mods.
+5. Launch Timberborn, enable **Folktails+ Addons**, and restart once. Open the game's mod list → this mod → **Settings** to see all four feature toggles.
+
+**If an optional companion mod is missing or disabled, the corresponding feature is inactive; the other features continue to work.** The mixer-cost and charging features only need Folktails+.
+
+## Settings, load order and auto detection
+
+The runtime follows the **TB Optimizer** pattern: a custom Mod Settings panel with compact labels and 1–2 line descriptions, default-on switches, and restart-required changes. It reads enabled mod IDs from Timberborn's `ModRepository` (not merely from folders on disk). This prevents Tiny Tubeway and Scientific Projects additions from referencing missing mods.
+
+Each feature has its own payload in `Payload/<feature>/`, stored as `.template` files **outside** Timberborn's active blueprint search tree. The DLL copies only the enabled/dependency-satisfied blueprints into its **own** `version-1.1/` folder and removes only its own inactive patches. Settings live in `folktails-addons-options.txt` next to the mod; no companion-mod assets, manifests, or DLLs are overwritten.
+
+**Restart Timberborn after changing a checkbox or installed mods.** This mod needs write access to its own installation directory to materialize the selected blueprints. Steam Workshop folders may be read-only or automatically overwritten, so a local Mods installation is recommended.
+
+### Dependencies
+
+**Always required:** `FolktailsPlus`, `eMka.ModSettings`, `TimberUi`. These are listed under `RequiredMods` in the manifest.
+
+**Optional, automatically detected:** `BobingaboutTinyTubewayStation`, `ScientificProjects`, `AlternativeRecipesSPs`. These are under `OptionalMods`; none is required just to use Charging Boost or FT Mixer.
+
+## Compatibility and cautions
+
+- Designed for **Timberborn 1.1** and Folktails+ 11.x.
+- Maintains **one manifest, one mod ID, one compiled DLL**, four independent feature toggles.
+- All building and science assets come from Timberborn or other installed mods: no copies of companion-mod blueprints are bundled.
+- The original FT Mixer ZIP also specified selection sounds and placement flags; this integration intentionally patches only material and science prices to reduce conflicts.
+- Existing saves: make a backup before enabling or disabling features involving buildings or scientific projects.
+- Compilation/JSON/archive tests verify packaging, **not** actual gameplay; check `Player.log` if a feature fails to appear. Detection relies on Mod Settings initialization before the game scans addon blueprints.
+
+## Developer notes
+
+| Path | Purpose |
 | --- | --- |
-| Charging station boost | Folktails+ |
-| Tiny Tubeway Station | Folktails+; `BobingaboutTinyTubewayStation` |
-| Scientific projects | Folktails+; `ScientificProjects`; `AlternativeRecipesSPs` |
+| `Runtime/AddonRuntime.cs` | Feature dependency detection, toggle persistence, UI, and managed blueprint installation |
+| `Mod/Payload/ChargingBoost/` | Charging Boost patches |
+| `Mod/Payload/TinyTubeway/` | Tiny station collection patch |
+| `Mod/Payload/ScientificProjects/` | Five faction-allowlist patches |
+| `Mod/Payload/MixerCosts/` | Four minimal cost-only building patches |
+| `Mod/manifest.json` | One shared mod ID, required/optional mod IDs |
+| `Mod/ModDesc.txt` | Steam Workshop-style description |
+| `.github/workflows/build.yml` | Build and package a single installable ZIP |
 
-**Mod-wide requirements:** Folktails+ v11+, eMka Mod Settings, TimberUi. Others are *optional* and declared `OptionalMods` to load before this addon if present.
+### Build
 
-## How dependency detection works
-The runtime reads **enabled** mod IDs from Timberborn's `ModRepository` (not merely installed folders). When the main-menu settings owner initializes, it reconciles the selected features with the available dependencies, installing/removing this addon's `.blueprint.json` patches from its own `version-1.1/` folder. Feature payload templates remain in `Payload/` outside the blueprint search path. Missing prerequisites disable that feature (and its checkbox) without preventing other features from loading. Settings are saved to `folktails-addons-options.txt`; changes need a game restart.
+Push to `main` or run the [Build workflow](https://github.com/tharbad08/TB-Folktails-Plus-Addons/actions/workflows/build.yml). The workflow compiles the DLL with TB Optimizer's reference stubs, validates all 14 blueprint templates, and produces a single-folder artifact. Those stubs verify compilation **only**, not binary compatibility with a particular installed Timberborn build.
 
-**Limitations:** This uses writable local mod-directory materialization to activate blueprints; Steam Workshop installations may be read-only. It is a compile-targeted adaptation of TB Optimizer's settings, not verified against an actual game runtime. Direct-to-save launch and blueprint scanning before main-menu settings initialization are not verified. The GitHub Actions build compiles against the TB Optimizer reference stubs, which validates API syntax but is not a substitute for integration testing against the game binaries.
+## Changelog
 
-## Release
-Go to [Build Folktails+ Addons](https://github.com/tharbad08/TB-Folktails-Plus-Addons/actions/workflows/build.yml) and download the latest successful artifact `FolktailsPlusAddons_1.1.3`. It contains a single mod folder (not three mods). Extract it under your Timberborn Mods directory and remove old addons.
+**1.1.4** — Merged FT Mixer real costs; added an independent fourth toggle; kept its four material/science cost tables; upgraded documentation and mod description.
 
-## File ownership
-- `Runtime/AddonRuntime.cs`: dependency detection, options, menu UI and blueprint materialization
-- `Mod/manifest.json`: core and optional mod requirements
-- `Mod/Payload/<feature>/`: blueprint templates; no replacement Folktails+ manifest
-- `.github/workflows/build.yml`: compile C# and package one mod folder, validate contents
+**1.1.3** — Single-mod DLL with three optional features, dependency checks, and Mod Settings integration.

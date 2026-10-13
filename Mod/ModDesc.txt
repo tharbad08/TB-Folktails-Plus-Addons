@@ -1,0 +1,24 @@
+[h1]Folktails+ Addons[/h1]
+[b]One addon, four independent features, one settings window.[/b]
+Enhance your Folktails+ colony with selected Iron Teeth mechanics and balanced mixed-faction building prices. Compatible with Timberborn 1.1.
+
+[h1]Features[/h1]
+[b]Charging Station Boost[/b] — Gives Folktails+ bots an extra charging benefit.
+[b]Tiny Tubeway Station[/b] — Adds the small tubeway station to Folktails when Bobingabout's Tiny Tubeway Station mod is enabled.
+[b]Scientific Projects[/b] — Unlocks five Iron Teeth scientific projects for Folktails when Scientific Projects and Alternative Recipes Scientific Projects are both enabled.
+[b]FT Mixer — Real Costs[/b] — Applies the original mixed-faction prices to four Iron Teeth buildings: Deep Water Pump, Deep Badwater Pump, Deep Mechanical Fluid Pump, and Industrial Lumber Mill.
+
+[h1]Simple settings, automatic detection[/h1]
+Go to the game's [b]Mods → Folktails+ Addons → Settings[/b] and switch each feature on or off.
+Features whose companion mods are missing or disabled remain inactive; unrelated features keep working. [b]Restart the game after changing settings.[/b]
+
+[h1]Dependencies[/h1]
+[b]Required:[/b] Folktails+ 11+, eMka Mod Settings, and TimberUi.
+[b]Optional:[/b] Tiny Tubeway Station; Scientific Projects; Alternative Recipes Scientific Projects. Enable these only for their corresponding features.
+
+[h1]Installing and updating[/h1]
+Install the single FolktailsPlusAddons folder under your local Timberborn Mods directory. Remove the previous separate addons before using this combined package. The mod needs permission to write to its own folder to enable and disable blueprint patches.
+
+[h1]Source and support[/h1]
+[url=https://github.com/tharbad08/TB-Folktails-Plus-Addons]GitHub source, full README and releases[/url]
+Created by [b]tharbad08[/b].

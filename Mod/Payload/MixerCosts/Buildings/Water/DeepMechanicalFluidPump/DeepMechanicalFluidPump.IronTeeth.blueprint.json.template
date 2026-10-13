@@ -1,0 +1,19 @@
+{
+  "BuildingSpec": {
+    "BuildingCost": [
+      {
+        "Id": "Gear",
+        "Amount": 100
+      },
+      {
+        "Id": "TreatedPlank",
+        "Amount": 50
+      },
+      {
+        "Id": "MetalBlock",
+        "Amount": 50
+      }
+    ],
+    "ScienceCost": 5000
+  }
+}
