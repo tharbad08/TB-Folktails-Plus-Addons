@@ -1,0 +1,7 @@
+{
+  "TemplateCollectionSpec": {
+    "Blueprints#append": [
+      "Buildings/Paths/Tubeway/TubewayStation.Tiny.IronTeeth.blueprint"
+    ]
+  }
+}

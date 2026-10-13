@@ -1,0 +1,7 @@
+{
+  "NeedCollectionSpec": {
+    "Needs#append": [
+      "ChargingBoost"
+    ]
+  }
+}

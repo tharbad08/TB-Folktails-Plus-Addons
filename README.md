@@ -1,20 +1,28 @@
-# Folktails+ Addons
+# TB Folktails+ Addons
 
-Combines three separate Timberborn 1.1 Folktails+ enhancements with dependency-aware packaging and a C# Mod Settings integration (pending compilation/in-game validation).
+Combines the three user-supplied Folktails+ patches without replacing Folktails+'s manifests, collections, or building definitions.
 
-## Features
-- **Charging Boost** — independent of other optional mods; defines an isolated bot need collection, registers the need only for Folktails, and updates the Iron Teeth Charging Station attraction.
-- **Tiny Tubeway Station** — requires `BobingaboutTinyTubewayStation`.
-- **Scientific Projects** — requires `ScientificProjects` and `AlternativeRecipesSPs`; grants Folktails five previously Iron-Teeth-only projects.
+## Ready-to-extract, dependency-safe version
 
-**Required**: Folktails+ v11.0.0+, Timberborn v1.1.1+, eMka Mod Settings for the native settings window. Optional dependencies are for load order; assets must still be gated.
+The `Installable/` directory has three **individually gated Timberborn addon mods**, bundled in a **single ZIP**. Each uses Timberborn's `RequiredMods` checks, so the game will not activate an addon whose dependency is disabled or missing. You can enable or disable them separately in Timberborn's built-in mod manager. The three components are Charging Boost (Folktails+), Tiny Tubeway (Folktails+ and BobingaboutTinyTubewayStation), and Scientific Projects (Folktails+, ScientificProjects, AlternativeRecipesSPs).
 
-## Design
-Do not ship the full replacement Folktails+ manifest/collection from the ChargingBoost input. Only append/add minimal blueprints. Dependent patches must not load unless their required mods are **enabled** (not merely installed). Native in-game checkboxes use Mod Settings; blueprint changes take effect after game restart. The optional materializer only changes this addon's own blueprint files.
+Extract the contents of the release ZIP **directly to** `Documents/Timberborn/Mods/` and restart the game. Do not extract all addons into one extra parent directory.
 
-## Validation and release status
-Packaging tests pass. The native C# DLL has **not** been compiled or game-validated because Timberborn/Mod Settings runtime assemblies are not accessible in this environment. No full release with verified in-game settings is claimed. The Python packager can create a dependency-gated, one-folder ZIP without the DLL; in that case selecting features happens during packaging, not through an in-game settings window.
+The original Charging Boost input had a full Folktails+ replacement manifest and building collection; those are intentionally excluded. The Charging Boost patch now appends its need to Folktails+'s existing need collection.
 
-Use `python -m unittest discover -s tests -v` and `python tools/build.py --help`.
+## Settings and detection
 
-See the source ZIP supplied in the chat for the entire snapshot and local tests.
+The *working, data-only* release relies on the game's built-in mod-manager checkboxes and dependency checks, **not** a custom in-game settings panel. The `src/` code under this repository was a prototype and is not part of that release. It has not been successfully built or game-tested. The requested TB Optimizer-style custom settings UI requires a separately compiled and runtime-validated DLL.
+
+The original source archive is preserved in the conversation; no assemblies from optional mods are redistributed here.
+
+## Validation
+
+- All 12 files in the data-only package were checked as valid JSON.
+- Each of the three addon manifests contains explicit dependency requirements.
+- No direct replacement of Folktails+'s building collections or full faction manifest.
+- Packaging validated locally. The game itself was not run in this environment.
+
+## Original projects
+- [Folktails+](https://github.com/datvm/TimberbornMods/tree/master/FolktailsPlus)
+- [Scientific Projects](https://github.com/datvm/TimberbornMods/tree/master/ScientificProjects)
