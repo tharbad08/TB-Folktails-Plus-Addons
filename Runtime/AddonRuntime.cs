@@ -39,10 +39,11 @@ internal static class AddonFeatures
     internal static readonly Feature[] All =
     {
         new Feature("ChargingBoost", "Charging station boost",
-            "For Folktails only: remove basic Energy and add ChargingBoost under Boosts. Restart to apply.",
+            "Adds ChargingBoost to Folktails and removes inherited basic Energy for Folktails only. Restart to apply.",
             new[] { "FolktailsPlus" },
             "Buildings/Science/ChargingStation/ChargingStation.IronTeeth.blueprint.json",
-            "Factions/Faction.Folktails.blueprint.json"),
+            "Factions/Faction.Folktails.blueprint.json",
+            "NeedCollections/NeedCollection.Folktails.blueprint.json"),
         new Feature("TinyTubeway", "Tiny Tubeway Station",
             "Requires Tiny Tubeway Station and its building blueprint. Restart to apply.",
             new[] { "FolktailsPlus", "BobingaboutTinyTubewayStation" },

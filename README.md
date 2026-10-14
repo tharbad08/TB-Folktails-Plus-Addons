@@ -1,80 +1,76 @@
-# Folktails+ Addons 1.2.4
+# Folktails+ Addons v1.2.5
 
-Single Timberborn 1.1 mod with four independent options and persistent settings. Built on Timberborn's native `IBlueprintModifierProvider`, **faction-scoped `BlueprintModifiers`**, and eMka Mod Settings. No runtime file writes or Harmony patches.
+One mod with four independently enabled features. Uses Timberborn's built-in blueprint modifier API and eMka Mod Settings; no Harmony startup patch, reflection-based dependency scanning or runtime writes.
 
 ## Features
 
-| Setting | Effect | Other required mods |
+| Feature | Effect | Optional companion |
 | --- | --- | --- |
-| Charging Station Boost | In **Folktails only**, changes the bot Power need from basic Energy to optional ChargingBoost under Boosts. | Folktails+ |
-| Tiny Tubeway Station | Adds Tiny Tubeway Station to Folktails+ if installed and its blueprint exists. | Tiny Tubeway Station |
-| Scientific Projects | Enables five Iron Teeth scientific projects in Folktails. | Scientific Projects + Alternative Recipes SPs |
-| FT Mixer — Real Costs | Applies material/science costs of four Iron Teeth buildings. | Folktails+ |
+| Charging Station Boost | Folktails' Power changes from basic `Energy` to bonus `ChargingBoost` under Boosts | None |
+| Tiny Tubeway | Adds Tiny Tubeway Station to Folktails+ when both mod and blueprint are available | Tiny Tubeway Station |
+| Scientific Projects | Adds five Iron Teeth scientific projects for Folktails | Scientific Projects and Alternative Recipes SPs |
+| FT Mixer — Real Costs | Adjusts material/science costs of four Iron Teeth buildings | None |
 
-All features default to enabled. Dependencies are checked against enabled mods. Settings changes require restarting the game.
+Required: Folktails+ 11+, Mod Settings 1.1.1+, TimberUi 11+. All four features default on; disabled/missing optional companions affect only their feature. **Restart the game after changing settings.**
 
-## How Charging Boost is implemented
+## ChargingBoost — v1.2.5 fix
 
-**This is an addon, not a replacement collection.** Versions 1.2.2/1.2.3 had incorrect approaches that allowed basic Power to remain or replaced an entire need collection, respectively. v1.2.4 corrects both problems using existing game APIs and JSON array operators:
+**Do not replace or copy full need collections.** Timberborn 1.1 `FactionNeedService.Load` uses the **union of every NeedCollectionId** attached to a faction. Folktails+ adds the `IronTeeth` collection to Folktails, but does *not* merge that collection's `Needs` array into the `Folktails` collection. Consequently, a `Needs#remove: ["Energy"]` against the *Folktails* collection alone has no effect: Energy originates in the separately attached *IronTeeth* collection.
 
-1. `AddonBlueprintModifierProvider` contributes a **conditional** `FactionSpec.BlueprintModifiers#append` entry for `Faction.Folktails`, only if the Charging Station Boost checkbox is enabled.
-2. The game's built-in `FactionBlueprintModifierProvider` applies `Modifiers/NeedCollection.IronTeeth.FolktailsPlusAddons.blueprint` **only for the selected Folktails faction**, to the normal `NeedCollection.IronTeeth` already attached by Folktails+.
-3. That tiny JSON patch uses `Needs#remove: ["Energy"]` and `Needs#append: ["ChargingBoost"]`. It **preserves every other need** in that collection, including needs added by other mods.
-4. The original ChargingBoost `NeedSpec` with `NeedGroupId: "Boosts"` remains statically present for save compatibility; the existing native charging-station effect patch provides `ChargingBoost` when enabled.
+This release uses two small, **settings-conditional and Folktails-scoped** native JSON modifications:
 
-**Iron Teeth-only games retain the original `Energy` need.** In Folktails, disabling Charging Station Boost stops applying the conditional faction modifier; the original Energy need returns. The mod does not replace the Folktails faction or any need collection wholesale.
-
-### ChargingBoost patch
+**1. Add the bonus to Folktails' own need collection**, using the requested explicit CollectionId:
 
 ```json
-{
-  "NeedCollectionSpec": {
-    "Needs#remove": ["Energy"],
-    "Needs#append": ["ChargingBoost"]
-  }
-}
+{"NeedCollectionSpec":{"CollectionId":"Folktails","Needs#append":["ChargingBoost"]}}
 ```
 
-## Mixer costs
+The `AddonBlueprintModifierProvider` supplies this JSON when Timberborn deserializes `NeedCollection.Folktails`, and only if Charging Station Boost is enabled.
 
-| Building | Resources | Science |
+**2. Remove inherited basic Energy only in Folktails' context.** The same enabled feature appends one `FactionSpec.BlueprintModifiers` entry to `Faction.Folktails`; the native `FactionBlueprintModifierProvider` then applies this modifier to `NeedCollection.IronTeeth` *only when the current faction is Folktails*:
+
+```json
+{"NeedCollectionSpec":{"CollectionId":"IronTeeth","Needs#remove":["Energy"]}}
+```
+
+This does **not** globally change Iron Teeth's need collection or overwrite other Iron Teeth needs. It simply removes one inherited item for Folktails. It does not alter Folktails+ itself. All other needs added by Folktails+, Iron Teeth or unrelated mods are retained.
+
+The original ChargingBoost `NeedSpec` is always installed (for save compatibility); it uses `NeedGroupId: "Boosts"` and the game's Power display-name key. The existing ChargingStation effect patch is controlled by the same checkbox.
+
+### Source locations
+
+- `Mod/Payload/ChargingBoost/NeedCollections/NeedCollection.Folktails.blueprint.json.template` — *Folktails* CollectionId and `Needs#append` only
+- `Mod/Payload/ChargingBoost/Factions/Faction.Folktails.blueprint.json.template` — adds the faction-scoped reference, enabled only via native setting
+- `Mod/Static/version-1.1/Modifiers/NeedCollection.IronTeeth.FolktailsPlusAddons.blueprint.json` — one-item `Needs#remove` for that faction only
+- `Mod/Static/version-1.1/Needs/Need.Bot.ChargingBoost.blueprint.json` — stable bonus need specification
+- `Runtime/AddonRuntime.cs` — four feature switches, native provider, optional dependency checks
+
+## FT Mixer real costs
+
+| Building | Materials | Science |
 | --- | --- | ---: |
 | Deep Water Pump | 24 Logs | 100 |
-| Deep Badwater Pump | 40 Logs + 20 Gears + 20 Metal Parts | 500 |
-| Deep Mechanical Fluid Pump | 100 Gears + 50 Treated Planks + 50 Metal Blocks | 5000 |
+| Deep Badwater Pump | 40 Logs, 20 Gears, 20 Metal Parts | 500 |
+| Deep Mechanical Fluid Pump | 100 Gears, 50 Treated Planks, 50 Metal Blocks | 5000 |
 | Industrial Lumber Mill | 40 Logs | 200 |
 
-## Installation / updating
+## Install
 
-**Delete the old `FolktailsPlusAddons` folder completely** before extracting this package; old versions wrote files and later versions installed conflicting full need collections. This release includes one mod folder, one manifest, one DLL, two static JSON blueprints (ChargingBoost NeedSpec + faction-scoped modifier) and Workshop artwork.
+**Delete the entire previous `FolktailsPlusAddons` directory** before extracting the updated single-folder ZIP. Earlier versions created and packaged incompatible need collection assets, which can remain if the ZIP is simply overwritten. Extract to your local Timberborn Mods directory, restart the game and enable Charging Station Boost in Mod Settings. Back up affected saved worlds before loading or saving.
 
-Required: Folktails+ 11+, Mod Settings 1.1.1+, TimberUi 11+. Optional companions as listed above.
+## Validation and limitations
 
-Make a backup of existing saves before testing. In-game confirmation is required; compiling and validating JSON does not prove that selected bot needs are restored in existing saves.
+GitHub Actions builds against API reference stubs and asserts the exact JSON for both scoped need changes, valid manifest, compiled DLL, dependency/settings code, Workshop cover and all four feature payloads. This catches regression to replacing a full collection, to a global modification of IronTeeth, or to omitting `CollectionId: "Folktails"`.
 
-## Implementation references
-
-- `Runtime/AddonRuntime.cs`: native game provider, enabled-mod detection, Mod Settings checkbox and optional feature routing
-- `Mod/Payload/ChargingBoost/Factions/Faction.Folktails.blueprint.json.template`: dynamic `BlueprintModifiers#append` on Folktails **only**
-- `Mod/Static/version-1.1/Modifiers/NeedCollection.IronTeeth.FolktailsPlusAddons.blueprint.json`: targeted `Energy` removal and `ChargingBoost` append
-- `Mod/Static/version-1.1/Needs/Need.Bot.ChargingBoost.blueprint.json`: stable bonus need spec under Boosts
-- `.github/workflows/build.yml`: .NET build, syntax/packaging assertions, regression checks
-- `WorkshopCover.png` / `WorkshopPreview.jpg`: Workshop media (not an in-game icon)
-
-## Known independent issue
-
-Missing `TWMoreMines` material collection warnings originate in More Mines and are not addressed by this addon.
+**Still requires in-game confirmation** on Timberborn 1.1: actual parsing, provider invocation and bot wellbeing categories cannot be established by compilation alone. Send a fresh `Player.log` from **v1.2.5** if Power remains a Basic Need. The independent `TWMoreMines` missing material collection warning is unrelated.
 
 ## Changelog
 
-**1.2.4:** Replace whole-collection/faction swap with conditional, **faction-scoped** blueprint JSON modifiers that remove only `Energy` and append `ChargingBoost`. All unrelated needs are preserved.
+**1.2.5** — Explicit Folktails CollectionId, conditional boost append, minimal faction-scoped inherited Energy removal and extra regression coverage.
+**1.2.4** — First attempted faction-scoped modifier; ChargingBoost append was attached to inherited IronTeeth instead of Folktails.
+**1.2.3** — Superseded full collection replacement.
+**1.2.2** — Superseded nonexistent collection append.
+**1.2.1** — Fixed Timberborn blueprint-loader return type.
+**1.2.0** — Native blueprint provider architecture.
 
-**1.2.3:** Copied full 32-need collection and rewired faction (superseded).
-
-**1.2.2:** Appended bonus to a non-existent collection (superseded).
-
-**1.2.1:** Corrected `BlueprintFileBundleLoader.GetBundle` return-type API mismatch.
-
-**1.2.0:** Native blueprint modifiers/settings architecture.
-
-Author: **tharbad08**
+Author: **tharbad08**. Workshop promotional cover is included; no in-game icon.

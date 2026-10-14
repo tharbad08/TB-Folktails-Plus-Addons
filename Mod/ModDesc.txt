@@ -1,23 +1,23 @@
 [h1]Folktails+ Addons[/h1]
-[b]One mod, four optional features, native game APIs, Timberborn 1.1.[/b]
+[b]One mod, four independent features, Timberborn 1.1.[/b]
 
 [h1]Features[/h1]
-[b]Charging Station Boost[/b] — For Folktails+ ONLY, remove Energy from the Iron Teeth bot need collection and append ChargingBoost under Boosts. Uses built-in faction-scoped JSON modifiers; leaves all other needs and Iron Teeth-only colonies untouched.
-[b]Tiny Tubeway Station[/b] — Integrate Tiny Tubeway Station when the companion mod is enabled.
-[b]Scientific Projects[/b] — Five Iron Teeth scientific projects in Folktails; requires Scientific Projects and Alternative Recipes Scientific Projects.
-[b]FT Mixer — Real Costs[/b] — Mixed-faction prices for the Deep Water Pump, Deep Badwater Pump, Deep Mechanical Fluid Pump and Industrial Lumber Mill.
+[b]Charging Station Boost[/b] — Adds ChargingBoost to Folktails' need collection and removes inherited basic bot Energy for Folktails only. The bonus displays as Power under Boosts; Iron Teeth colonies remain unchanged.
+[b]Tiny Tubeway Station[/b] — Integrates Tiny Tubeway Station when its companion mod is installed.
+[b]Scientific Projects[/b] — Makes five Iron Teeth scientific projects available to Folktails with the companion science mods.
+[b]FT Mixer — Real Costs[/b] — Applies mixed-faction cost balancing to four Iron Teeth buildings.
 
 [h1]Configuration[/h1]
-Separate enabled-by-default toggles under Mods → Folktails+ Addons → Settings. Optional dependencies are checked automatically. [b]Restart the game after changes.[/b]
+Each feature has an independent, enabled-by-default setting through Mod Settings. Missing optional mods disable only their corresponding feature. Restart Timberborn after changing settings.
 
 [h1]Requirements[/h1]
-Folktails+ 11+, Mod Settings 1.1.1+, TimberUi 11+. Other companion mods are optional.
+Folktails+ 11+, Mod Settings 1.1.1+, TimberUi 11+. Tiny Tubeway Station, Scientific Projects and Alternative Recipes SPs optional.
 
-[h1]v1.2.4 – ChargingBoost regression fix[/h1]
-No need-collection replacement. Uses the game's faction-specific BlueprintModifiers and a minimal JSON diff: Needs#remove Energy; Needs#append ChargingBoost. The normal IronTeeth needs are unchanged when playing Iron Teeth. Make a backup of existing saves before updating.
+[h1]v1.2.5[/h1]
+Restores correct Power/ChargingBoost behavior with native, faction-scoped JSON modifiers. Explicit CollectionId Folktails receives ChargingBoost; Energy is removed only from IronTeeth needs inherited by Folktails. No full collection replacement or global modification of IronTeeth. Back up existing saves before testing.
 
-[h1]Install[/h1]
-Completely remove the previous FolktailsPlusAddons folder before extracting the new single-folder package.
+[h1]Installation[/h1]
+Delete the previous FolktailsPlusAddons folder completely before extracting this new single-mod ZIP.
 
-[url=https://github.com/tharbad08/TB-Folktails-Plus-Addons]Source code / README[/url]
+[url=https://github.com/tharbad08/TB-Folktails-Plus-Addons]Source code and README[/url]
 Author: [b]tharbad08[/b].

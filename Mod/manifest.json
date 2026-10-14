@@ -1,9 +1,9 @@
 {
   "Name": "Folktails+ Addons",
-  "Version": "1.2.4",
+  "Version": "1.2.5",
   "Id": "tharbad08.FolktailsPlusAddons",
   "MinimumGameVersion": "1.1.1",
-  "Description": "Four optional Folktails+ addons using native Timberborn APIs. Changes only Folktails bot needs with a faction-scoped Energy removal and ChargingBoost append.",
+  "Description": "Four optional Folktails+ enhancements with native APIs: Folktails-only ChargingBoost, Tiny Tubeway, five Scientific Projects and real mixed-faction costs.",
   "RequiredMods": [
     {
       "Id": "FolktailsPlus",
