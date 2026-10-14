@@ -1,8 +1,0 @@
-{
-  "NeedCollectionSpec": {
-    "CollectionId": "IronTeeth",
-    "Needs#remove": [
-      "Energy"
-    ]
-  }
-}

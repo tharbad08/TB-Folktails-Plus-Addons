@@ -1,23 +1,17 @@
 [h1]Folktails+ Addons[/h1]
-[b]One mod, four independent features, Timberborn 1.1.[/b]
+[b]Four independent Folktails+ addons for Timberborn 1.1[/b]
 
-[h1]Features[/h1]
-[b]Charging Station Boost[/b] — Adds ChargingBoost to Folktails' need collection and removes inherited basic bot Energy for Folktails only. The bonus displays as Power under Boosts; Iron Teeth colonies remain unchanged.
-[b]Tiny Tubeway Station[/b] — Integrates Tiny Tubeway Station when its companion mod is installed.
-[b]Scientific Projects[/b] — Makes five Iron Teeth scientific projects available to Folktails with the companion science mods.
-[b]FT Mixer — Real Costs[/b] — Applies mixed-faction cost balancing to four Iron Teeth buildings.
+[b]Charging Station Boost[/b] — Folktails CollectionId: remove Energy, append ChargingBoost in the Boosts group. No global changes to Iron Teeth needs.
+[b]Tiny Tubeway Station[/b] — Optional small tubeway station integration.
+[b]Scientific Projects[/b] — Five optional science projects in Folktails.
+[b]FT Mixer — Real Costs[/b] — Four mixed-faction building cost changes.
 
-[h1]Configuration[/h1]
-Each feature has an independent, enabled-by-default setting through Mod Settings. Missing optional mods disable only their corresponding feature. Restart Timberborn after changing settings.
+Use Mods → Folktails+ Addons → Settings to control features. Restart after changes.
 
-[h1]Requirements[/h1]
-Folktails+ 11+, Mod Settings 1.1.1+, TimberUi 11+. Tiny Tubeway Station, Scientific Projects and Alternative Recipes SPs optional.
+[h1]v1.2.6[/h1]
+ChargingBoost now uses a single conditional Folktails NeedCollectionSpec patch with Needs#remove Energy and Needs#append ChargingBoost. Previous faction-level / IronTeeth need modifier removed. The game's multiple-collection union may still surface Energy; in-game verification is required.
 
-[h1]v1.2.5[/h1]
-Restores correct Power/ChargingBoost behavior with native, faction-scoped JSON modifiers. Explicit CollectionId Folktails receives ChargingBoost; Energy is removed only from IronTeeth needs inherited by Folktails. No full collection replacement or global modification of IronTeeth. Back up existing saves before testing.
+Install by deleting the previous FolktailsPlusAddons folder and extracting this one. Back up your save.
 
-[h1]Installation[/h1]
-Delete the previous FolktailsPlusAddons folder completely before extracting this new single-mod ZIP.
-
-[url=https://github.com/tharbad08/TB-Folktails-Plus-Addons]Source code and README[/url]
-Author: [b]tharbad08[/b].
+Author: [b]tharbad08[/b]
+[url=https://github.com/tharbad08/TB-Folktails-Plus-Addons]Source and documentation[/url]

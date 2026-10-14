@@ -1,9 +1,9 @@
 {
   "Name": "Folktails+ Addons",
-  "Version": "1.2.5",
+  "Version": "1.2.6",
   "Id": "tharbad08.FolktailsPlusAddons",
   "MinimumGameVersion": "1.1.1",
-  "Description": "Four optional Folktails+ enhancements with native APIs: Folktails-only ChargingBoost, Tiny Tubeway, five Scientific Projects and real mixed-faction costs.",
+  "Description": "Four optional Folktails+ improvements. ChargingBoost modifies only the Folktails need collection using Needs#remove and Needs#append.",
   "RequiredMods": [
     {
       "Id": "FolktailsPlus",

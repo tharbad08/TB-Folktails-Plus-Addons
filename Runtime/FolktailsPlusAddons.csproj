@@ -6,7 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <AssemblyName>FolktailsPlusAddons</AssemblyName>
     <RootNamespace>FolktailsPlusAddons</RootNamespace>
-    <AssemblyVersion>1.2.5.0</AssemblyVersion>
+    <AssemblyVersion>1.2.6.0</AssemblyVersion>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Stubs/**/*.cs" />

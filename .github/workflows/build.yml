@@ -75,13 +75,13 @@ jobs:
           assert len(jpg)>30000
           m=json.loads((root/'version-1.1/manifest.json').read_text())
           assert m['Id']=='tharbad08.FolktailsPlusAddons'
-          assert m['Version']=='1.2.5'
+          assert m['Version']=='1.2.6'
           assert len(m['RequiredMods'])==3
           assert len(m['OptionalMods'])==3
           templates=list((root/'Payload').rglob('*.blueprint.json.template'))
           assert len(templates)==0, len(templates)
           counts={feature:len(list(pathlib.Path('Mod/Payload',feature).rglob('*.template'))) for feature in ('ChargingBoost','TinyTubeway','ScientificProjects','MixerCosts')}
-          assert counts=={'ChargingBoost':3,'TinyTubeway':1,'ScientificProjects':5,'MixerCosts':4},counts
+          assert counts=={'ChargingBoost':2,'TinyTubeway':1,'ScientificProjects':5,'MixerCosts':4},counts
           for template in pathlib.Path('Mod/Payload').rglob('*.template'): json.loads(template.read_text())
           expected={
              'DeepWaterPump':(100,[('Log',24)]),
@@ -98,35 +98,28 @@ jobs:
           runtime=pathlib.Path('Runtime/AddonRuntime.cs').read_text()
           assert 'new Feature("MixerCosts"' in runtime
           assert 'IBlueprintModifierProvider' in runtime and 'File.WriteAll' not in runtime and 'new Harmony(' not in runtime
-          # Validate both sides of the engine's actual union of need collections.
-          assert len(list(root.rglob('*.blueprint.json')))==2
-          assert not (root/'version-1.1/NeedCollections/NeedCollection.FolktailsPlus.blueprint.json').exists()
-          assert not (root/'version-1.1/Factions/Faction.Folktails.blueprint.json').exists()
-          assert not (root/'version-1.1/NeedCollections/NeedCollection.Folktails.blueprint.json').exists(), 'Must be settings-conditional, not static'
-          scoped_path=root/'version-1.1/Modifiers/NeedCollection.IronTeeth.FolktailsPlusAddons.blueprint.json'
-          assert json.loads(scoped_path.read_text())=={'NeedCollectionSpec': {
-            'CollectionId':'IronTeeth', 'Needs#remove':['Energy']}}
-          need_folktails=json.loads(pathlib.Path('Mod/Payload/ChargingBoost/NeedCollections/NeedCollection.Folktails.blueprint.json.template').read_text())
-          assert need_folktails=={'NeedCollectionSpec':{'CollectionId':'Folktails','Needs#append':['ChargingBoost']}}
-          faction=json.loads(pathlib.Path('Mod/Payload/ChargingBoost/Factions/Faction.Folktails.blueprint.json.template').read_text())
-          assert faction=={'FactionSpec':{'BlueprintModifiers#append':[
-            {'Original':'needcollections/needcollection.ironteeth.blueprint',
-             'Modifier':'Modifiers/NeedCollection.IronTeeth.FolktailsPlusAddons.blueprint'}]}}
-          assert 'Factions/Faction.Folktails.blueprint.json' in runtime
+          # Requested FT-only JSON change; never patch IronTeeth collection.
+          assert len(list(root.rglob('*.blueprint.json')))==1
+          assert not list((root/'version-1.1').rglob('NeedCollection.IronTeeth.FolktailsPlusAddons.blueprint.json'))
+          assert not list((root/'version-1.1').rglob('NeedCollection.Folktails.blueprint.json'))
+          assert not list(pathlib.Path('Mod/Payload/ChargingBoost').rglob('Faction.Folktails*'))
+          ft=json.loads(pathlib.Path('Mod/Payload/ChargingBoost/NeedCollections/NeedCollection.Folktails.blueprint.json.template').read_text())
+          assert ft == {'NeedCollectionSpec':{
+              'CollectionId':'Folktails',
+              'Needs#remove':['Energy'],
+              'Needs#append':['ChargingBoost']
+          }},ft
+          runtime=pathlib.Path('Runtime/AddonRuntime.cs').read_text()
           assert 'NeedCollections/NeedCollection.Folktails.blueprint.json' in runtime
+          assert '"Factions/Faction.Folktails.blueprint.json"' not in runtime
           assert json.loads((root/'version-1.1/Needs/Need.Bot.ChargingBoost.blueprint.json').read_text())['NeedSpec']['NeedGroupId']=='Boosts'
-          # FactionNeedService unions collections. Removing Energy from Folktails
-          # alone is a NO-OP: Energy is defined in the inherited IronTeeth
-          # collection. Both localized operations are necessary.
-          base_ft={'Carrots','Bread'}
-          inherited_it={'Energy','Grease','Coffee'}
-          actual=(base_ft|{'ChargingBoost'})|((inherited_it-{'Energy'}))
-          assert actual=={'Carrots','Bread','Grease','Coffee','ChargingBoost'}
-          print('PASS: Folktails CollectionId, settings-gated boost, faction-scoped inherited Energy removal, unchanged other needs')
-          print('PASS: native provider, one folder, DLL, two scoped need collection patches, four features')
+          # This deliberately tests the requested JSON, not gameplay behavior.
+          # Timberborn's FactionNeedService unions all attached collection IDs;
+          # a separate IronTeeth collection may still supply Energy in-game.
+          print('PASS: FT CollectionId, both delta operators, no IT or faction changes, 4 features')
           PY
       - uses: actions/upload-artifact@v4
         with:
-          name: FolktailsPlusAddons_1.2.5
+          name: FolktailsPlusAddons_1.2.6
           path: ${{ runner.temp }}/package/
           if-no-files-found: error
