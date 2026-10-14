@@ -1,9 +1,9 @@
 {
   "Name": "Folktails+ Addons",
-  "Version": "1.2.6",
+  "Version": "1.2.7",
   "Id": "tharbad08.FolktailsPlusAddons",
   "MinimumGameVersion": "1.1.1",
-  "Description": "Four optional Folktails+ improvements. ChargingBoost modifies only the Folktails need collection using Needs#remove and Needs#append.",
+  "Description": "Four configurable Folktails+ addons. ChargingBoost removes inherited basic bot Energy and adds Power under Boosts.",
   "RequiredMods": [
     {
       "Id": "FolktailsPlus",

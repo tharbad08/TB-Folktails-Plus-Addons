@@ -1,17 +1,12 @@
 [h1]Folktails+ Addons[/h1]
-[b]Four independent Folktails+ addons for Timberborn 1.1[/b]
+Four configurable Folktails+ extensions: Charging Station Boost, Tiny Tubeway Station, Scientific Projects and FT Mixer Real Costs.
 
-[b]Charging Station Boost[/b] — Folktails CollectionId: remove Energy, append ChargingBoost in the Boosts group. No global changes to Iron Teeth needs.
-[b]Tiny Tubeway Station[/b] — Optional small tubeway station integration.
-[b]Scientific Projects[/b] — Five optional science projects in Folktails.
-[b]FT Mixer — Real Costs[/b] — Four mixed-faction building cost changes.
+[h1]v1.2.7 — Power category fix[/h1]
+ChargingBoost is added to Folktails' Boosts and basic Energy is removed from the IronTeeth collection inherited through Folktails+. Only individual need IDs are modified; no collection is replaced. Native game blueprint modifier API, no file-writing hacks.
 
-Use Mods → Folktails+ Addons → Settings to control features. Restart after changes.
+[b]When playing Iron Teeth, disable both Folktails+ and Folktails+ Addons and restart.[/b]
+Delete the old addon folder before installing. Back up affected saves.
 
-[h1]v1.2.6[/h1]
-ChargingBoost now uses a single conditional Folktails NeedCollectionSpec patch with Needs#remove Energy and Needs#append ChargingBoost. Previous faction-level / IronTeeth need modifier removed. The game's multiple-collection union may still surface Energy; in-game verification is required.
-
-Install by deleting the previous FolktailsPlusAddons folder and extracting this one. Back up your save.
-
-Author: [b]tharbad08[/b]
+Required: Folktails+ 11+, Mod Settings 1.1.1+, TimberUi 11+.
 [url=https://github.com/tharbad08/TB-Folktails-Plus-Addons]Source and documentation[/url]
+Author: tharbad08.

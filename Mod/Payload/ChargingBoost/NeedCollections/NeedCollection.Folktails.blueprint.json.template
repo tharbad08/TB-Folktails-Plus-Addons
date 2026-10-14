@@ -1,9 +1,6 @@
 {
   "NeedCollectionSpec": {
     "CollectionId": "Folktails",
-    "Needs#remove": [
-      "Energy"
-    ],
     "Needs#append": [
       "ChargingBoost"
     ]
