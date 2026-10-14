@@ -1,33 +1,25 @@
 [h1]Folktails+ Addons[/h1]
-[b]One addon, four independent features, one settings window.[/b]
-Enhance your Folktails+ colony with selected Iron Teeth mechanics and balanced mixed-faction building prices. Compatible with Timberborn 1.1.
+[b]One mod. Four configurable Folktails+ enhancements. Timberborn 1.1.[/b]
 
 [h1]Features[/h1]
-[b]Charging Station Boost[/b] — Gives Folktails+ bots an extra charging benefit.
-[b]Tiny Tubeway Station[/b] — Adds the small tubeway station to Folktails when Bobingabout's Tiny Tubeway Station mod is enabled.
-[b]Scientific Projects[/b] — Unlocks five Iron Teeth scientific projects for Folktails when Scientific Projects and Alternative Recipes Scientific Projects are both enabled.
-[b]FT Mixer — Real Costs[/b] — Applies the original mixed-faction prices to four Iron Teeth buildings: Deep Water Pump, Deep Badwater Pump, Deep Mechanical Fluid Pump, and Industrial Lumber Mill.
+[b]Charging Station Boost[/b] — Restores the original Folktails+ ChargingBoost experience: Power appears under Boosts, not Basic Needs. Preserves the original 32-need Folktails+ collection, without replacing the Iron Teeth faction's needs.
+[b]Tiny Tubeway Station[/b] — Adds Bobingabout's Tiny Tubeway Station to Folktails+ when its companion mod and blueprint exist.
+[b]Scientific Projects[/b] — Makes five Iron Teeth scientific projects available for Folktails when both science companion mods are enabled.
+[b]FT Mixer — Real Costs[/b] — Rebalances costs of Deep Water Pump, Deep Badwater Pump, Deep Mechanical Fluid Pump, and Industrial Lumber Mill.
 
-[h1]Simple settings, automatic detection[/h1]
-Go to the game's [b]Mods → Folktails+ Addons → Settings[/b] and switch each feature on or off.
-Features whose companion mods are missing or disabled remain inactive; unrelated features keep working. [b]Restart the game after changing settings.[/b]
+[h1]Settings[/h1]
+Each feature has a separate checkbox in Mods → Folktails+ Addons → Settings. Optional companions are detected through Timberborn's own mod APIs; missing mods disable only their features. [b]Restart after changing settings.[/b]
 
 [h1]Dependencies[/h1]
-[b]Required:[/b] Folktails+ 11+, eMka Mod Settings, and TimberUi.
-[b]Optional:[/b] Tiny Tubeway Station; Scientific Projects; Alternative Recipes Scientific Projects. Enable these only for their corresponding features.
+[b]Required:[/b] Folktails+ 11+, Mod Settings 1.1.1+, TimberUi 11+.
+[b]Optional:[/b] Tiny Tubeway Station, Scientific Projects, Alternative Recipes Scientific Projects.
 
-[h1]Installing and updating[/h1]
-Install the single FolktailsPlusAddons folder under your local Timberborn Mods directory. Remove the previous separate addons before using this combined package. The mod needs permission to write to its own folder to enable and disable blueprint patches.
+[h1]Install[/h1]
+Delete the previous FolktailsPlusAddons folder before installing this single-folder ZIP. Back up existing saves: the ChargingBoost feature replaces the Iron Teeth basic Energy need in Folktails with the original mod's custom wellbeing need. The mod does not modify the Iron Teeth faction's own need list and requires no file-writing permissions.
 
-[h1]Source and support[/h1]
-[url=https://github.com/tharbad08/TB-Folktails-Plus-Addons]GitHub source, full README and releases[/url]
-Created by [b]tharbad08[/b].
+[h1]v1.2.3: Power category regression fixed[/h1]
+v1.2.1/1.2.2 incorrectly kept the IronTeeth need collection attached to Folktails. v1.2.3 restores the complete original FolktailsPlus need collection, which contains ChargingBoost under Boosts and does not include the basic Energy need.
 
-[h1]1.1.5 reliability update[/h1]
-Fixes optional-feature activation timing at startup and logs feature statuses to Player.log. Requires Harmony. Make a backup of existing saves before updating; missing third-party building templates require separate investigation.
-
-[h1]v1.2.1 compatibility fix[/h1]
-Corrects a Timberborn 1.1 API signature mismatch in v1.2.0 that caused a startup MissingMethodException while detecting Tiny Tubeway Station. In-game testing still needed; back up affected saves.
-
-[h1]v1.2.2 Charging Boost fix[/h1]
-Restores the ChargingBoost bonus to Folktails+'s original need collection. The bonus appears under Boosts as Power, while the game's essential bot Energy remains a Basic Need. No separate need collection or faction injection is used. Restart after updating; make a save backup first.
+[h1]Source and documentation[/h1]
+[url=https://github.com/tharbad08/TB-Folktails-Plus-Addons]GitHub — source, changelog and full README[/url]
+Author: [b]tharbad08[/b].

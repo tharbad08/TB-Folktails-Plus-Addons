@@ -1,0 +1,10 @@
+{
+  "FactionSpec": {
+    "NeedCollectionIds#remove": [
+      "IronTeeth"
+    ],
+    "NeedCollectionIds#append": [
+      "FolktailsPlus"
+    ]
+  }
+}

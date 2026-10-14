@@ -1,9 +1,9 @@
 {
   "Name": "Folktails+ Addons",
-  "Version": "1.2.2",
+  "Version": "1.2.3",
   "Id": "tharbad08.FolktailsPlusAddons",
   "MinimumGameVersion": "1.1.1",
-  "Description": "Four optional Folktails+ enhancements with native mod detection and settings. Restores ChargingBoost to Folktails+'s original bot need collection.",
+  "Description": "Four configurable Folktails+ enhancements. Restores original ChargingBoost: Power as a bonus under Boosts, without the Iron Teeth basic Energy need.",
   "RequiredMods": [
     {
       "Id": "FolktailsPlus",
