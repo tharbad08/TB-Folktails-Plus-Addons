@@ -75,7 +75,7 @@ jobs:
           assert len(jpg)>30000
           m=json.loads((root/'version-1.1/manifest.json').read_text())
           assert m['Id']=='tharbad08.FolktailsPlusAddons'
-          assert m['Version']=='1.2.1'
+          assert m['Version']=='1.2.2'
           assert len(m['RequiredMods'])==3
           assert len(m['OptionalMods'])==3
           templates=list((root/'Payload').rglob('*.blueprint.json.template'))
@@ -98,11 +98,15 @@ jobs:
           runtime=pathlib.Path('Runtime/AddonRuntime.cs').read_text()
           assert 'new Feature("MixerCosts"' in runtime
           assert 'IBlueprintModifierProvider' in runtime and 'File.WriteAll' not in runtime and 'new Harmony(' not in runtime
-          assert len(list(root.rglob('*.blueprint.json')))==3
-          print('PASS: native blueprint provider, one mod folder, DLL, 3 static compatibility specs, 4 optional features')
+          assert len(list(root.rglob('*.blueprint.json')))==2
+          assert not (root/'version-1.1/Factions/Faction.Folktails.blueprint.json').exists(), 'Old separate need collection faction attachment must be removed'
+          assert not (root/'version-1.1/NeedCollections/NeedCollection.FolktailsPlusAddons.ChargingBoost.blueprint.json').exists(), 'Old separate need collection must be removed'
+          assert json.loads((root/'version-1.1/NeedCollections/NeedCollection.FolktailsPlus.blueprint.json').read_text())=={'NeedCollectionSpec': {'Needs#append':['ChargingBoost']}}
+          assert json.loads((root/'version-1.1/Needs/Need.Bot.ChargingBoost.blueprint.json').read_text())['NeedSpec']['NeedGroupId']=='Boosts'
+          print('PASS: native blueprint provider, one mod folder, DLL, original FolktailsPlus need collection, 4 optional features')
           PY
       - uses: actions/upload-artifact@v4
         with:
-          name: FolktailsPlusAddons_1.2.1
+          name: FolktailsPlusAddons_1.2.2
           path: ${{ runner.temp }}/package/
           if-no-files-found: error

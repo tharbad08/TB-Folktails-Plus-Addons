@@ -1,9 +1,9 @@
 {
   "Name": "Folktails+ Addons",
-  "Version": "1.2.1",
+  "Version": "1.2.2",
   "Id": "tharbad08.FolktailsPlusAddons",
   "MinimumGameVersion": "1.1.1",
-  "Description": "Four optional Folktails+ enhancements using Timberborn native blueprint modifiers and Mod Settings; fixes a Timberborn 1.1 startup API mismatch.",
+  "Description": "Four optional Folktails+ enhancements with native mod detection and settings. Restores ChargingBoost to Folktails+'s original bot need collection.",
   "RequiredMods": [
     {
       "Id": "FolktailsPlus",

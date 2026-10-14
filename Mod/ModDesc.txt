@@ -28,3 +28,6 @@ Fixes optional-feature activation timing at startup and logs feature statuses to
 
 [h1]v1.2.1 compatibility fix[/h1]
 Corrects a Timberborn 1.1 API signature mismatch in v1.2.0 that caused a startup MissingMethodException while detecting Tiny Tubeway Station. In-game testing still needed; back up affected saves.
+
+[h1]v1.2.2 Charging Boost fix[/h1]
+Restores the ChargingBoost bonus to Folktails+'s original need collection. The bonus appears under Boosts as Power, while the game's essential bot Energy remains a Basic Need. No separate need collection or faction injection is used. Restart after updating; make a save backup first.
