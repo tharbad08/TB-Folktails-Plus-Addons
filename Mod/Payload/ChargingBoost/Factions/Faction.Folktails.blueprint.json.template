@@ -1,7 +1,10 @@
 {
   "FactionSpec": {
-    "NeedCollectionIds#append": [
-      "FolktailsPlusAddons.ChargingBoost"
+    "BlueprintModifiers#append": [
+      {
+        "Original": "needcollections/needcollection.ironteeth.blueprint",
+        "Modifier": "Modifiers/NeedCollection.IronTeeth.FolktailsPlusAddons.blueprint"
+      }
     ]
   }
 }

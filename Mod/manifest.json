@@ -1,9 +1,9 @@
 {
   "Name": "Folktails+ Addons",
-  "Version": "1.2.3",
+  "Version": "1.2.4",
   "Id": "tharbad08.FolktailsPlusAddons",
   "MinimumGameVersion": "1.1.1",
-  "Description": "Four configurable Folktails+ enhancements. Restores original ChargingBoost: Power as a bonus under Boosts, without the Iron Teeth basic Energy need.",
+  "Description": "Four optional Folktails+ addons using native Timberborn APIs. Changes only Folktails bot needs with a faction-scoped Energy removal and ChargingBoost append.",
   "RequiredMods": [
     {
       "Id": "FolktailsPlus",

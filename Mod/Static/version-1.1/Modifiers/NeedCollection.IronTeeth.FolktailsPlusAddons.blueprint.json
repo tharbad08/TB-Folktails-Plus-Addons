@@ -1,0 +1,10 @@
+{
+  "NeedCollectionSpec": {
+    "Needs#remove": [
+      "Energy"
+    ],
+    "Needs#append": [
+      "ChargingBoost"
+    ]
+  }
+}
